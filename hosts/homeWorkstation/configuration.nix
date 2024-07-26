@@ -106,6 +106,7 @@
     ranger
     lazygit
     dunst
+    spotify
   ];
 
 
