@@ -21,7 +21,7 @@
     ../../modules/home-manager/zsh.nix
     ../../modules/home-manager/rofi.nix
     ../../modules/home-manager/git.nix
-    ../../modules/home-manager/nixvim.nix
+    ../../modules/home-manager/nixvim
   ];
 
   fonts.fontconfig.enable = true;
