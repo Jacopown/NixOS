@@ -107,6 +107,7 @@
     lazygit
     dunst
     spotify
+    vscode
   ];
 
 
