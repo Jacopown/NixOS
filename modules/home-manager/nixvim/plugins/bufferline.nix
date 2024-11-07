@@ -33,10 +33,14 @@
     plugins = {
       bufferline = {
         enable = true;
-        closeCommand = "Bdelete! %d"; 
-        hover = {
-          enabled = true;
-          reveal = ["close"];
+        settings = {
+          options = {
+            closeCommand = "Bdelete! %d"; 
+            hover = {
+              enabled = true;
+              reveal = ["close"];
+            };
+          };
         };
       };
       bufdelete = {

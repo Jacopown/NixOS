@@ -13,5 +13,6 @@
       flavour = "frappe";
       };
     };
+    plugins.web-devicons.enable = true;
   };
 }
