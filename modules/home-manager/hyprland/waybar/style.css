@@ -35,15 +35,15 @@ window#waybar {
 }
 
 #workspaces button {
-  color: @text;
+  color: @red;
 }
 
 #workspaces button.active {
-  color: @base;
+  color: @red;
   background-color: @mauve;
 }
 
-#window {
-  color: @text;
-}
+/*#window {*/
+/*  color: @text;*/
+/*}*/
 

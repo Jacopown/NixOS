@@ -107,7 +107,8 @@
     lazygit
     dunst
     spotify
-    vscode
+    # vscode
+    # cloudflared
   ];
 
 

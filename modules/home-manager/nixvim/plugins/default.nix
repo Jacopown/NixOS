@@ -4,6 +4,7 @@
     ./telescope.nix
     ./bufferline.nix
     ./treesitter.nix
-    # ./nvim-ufo.nix
+    ./nvim-ufo.nix
+    ./ccc.nix
   ];
 }
