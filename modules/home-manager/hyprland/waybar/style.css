@@ -27,23 +27,27 @@
 
 * {
   font-family: JetBrainsMono Nerd Font;
-  color: @text;
 }
 
 window#waybar {
   background-color: @base;
+  color: @text;
 }
 
 #workspaces button {
-  color: @red;
+  color: @text;
+}
+
+#workspaces button:hover {
+  background: @mantle;
+  color: @text;
 }
 
 #workspaces button.active {
-  color: @red;
+  color: @base;
   background-color: @mauve;
 }
 
-/*#window {*/
-/*  color: @text;*/
-/*}*/
-
+#tray {
+  margin: 1px 1px 1px 1px;
+}

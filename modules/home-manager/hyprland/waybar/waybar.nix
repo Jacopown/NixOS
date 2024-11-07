@@ -5,12 +5,12 @@
     settings = {
       bar = {
         modules-left = [
-          "hyprland/workspaces"
+          "clock"
+          "hyprland/window"
         ];
 
         modules-center = [
-          "clock"
-          "hyprland/window"
+          "hyprland/workspaces"
         ];
 
         modules-right = [
