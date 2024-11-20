@@ -16,6 +16,16 @@
   # changes in each release.
   home.stateVersion = "24.05";
 
+  imports = [
+    ../../modules/home-manager/kitty.nix
+    # ../../modules/home-manager/zsh.nix
+    # ../../modules/home-manager/rofi.nix
+    ../../modules/home-manager/git.nix
+    # ../../modules/home-manager/nixvim
+  ];
+
+  programs.git.userEmail = "Jacopown@MacBook";
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

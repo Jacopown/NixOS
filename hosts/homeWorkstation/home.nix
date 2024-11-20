@@ -24,6 +24,8 @@
     ../../modules/home-manager/nixvim
   ];
 
+  programs.git.userEmail = "Jacopown@NixOS";
+
   fonts.fontconfig.enable = true;
 
   # The home.packages option allows you to install Nix packages into your
