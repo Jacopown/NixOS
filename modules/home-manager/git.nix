@@ -5,6 +5,7 @@
     git = {
       enable = true;
       userName = "Jacopown";
+      userEmail = "jacopown@NixOS";
       extraConfig = {
         init.defaultBranch = "main";
       };
