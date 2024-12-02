@@ -1,15 +1,22 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, inputs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../modules/nixos/nvidia.nix
-    ];
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    #../../modules/nixos/nvidia.nix
+    ../../modules/nixos/zsh.nix
+  ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot = {
@@ -18,34 +25,52 @@
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
-  drivers.nvidia.enable = true;
+  # Enable the X11 windowing system.
+  services.xserver = {
+    enable = true;
+    videoDrivers = ["nvidia"];
+    windowManager.awesome.enable = true;
+    displayManager.gdm.enable = true;
+  };
+
+  hardware.graphics.enable = true;
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = true;
+    nvidiaSettings = true;
+  };
+
   programs.zsh.enable = true;
 
-  hardware.bluetooth = { 
+  hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
     settings = {
-      General.Enable ="Source,Sink,Media,Socket";
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+        Experimental = true;
+      };
     };
   };
   services.blueman.enable = true;
 
   # Enable sound.
   security.rtkit.enable = true;
-  hardware.pulseaudio.enable = false;
   services.pipewire = {
     enable = true;
-    wireplumber.enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+    # wireplumber.enable = true;
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "NixOS"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Rome";
@@ -55,23 +80,19 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  #  i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   #   useXkbConfig = true; # use xkb.options in tty.
   # };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
-
+  # services.printing.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
@@ -79,38 +100,55 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.racoon = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = ["wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
     shell = pkgs.zsh;
-    packages = with pkgs; [];
+    packages = with pkgs; [
+      vim
+      firefox
+      cachix
+      vesktop
+    ];
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.cudaSupport = true;
+
+  nix = {
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nix-community.cachix.org"
+      ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
+  };
   nix.gc = {
     automatic = true;
     dates = "weekly";
     options = "--delete-older-than 30d";
   };
 
-  nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    wget
-    vesktop
-    keepassxc
-    pavucontrol
+    inputs.nixvim.packages.x86_64-linux.default
+    #wget
+    #vesktop
+    #keepassxc
+    #pavucontrol
     # pwvucontrol
-    chromium
-    webcord
-    ranger
-    lazygit
-    dunst
-    spotify
+    #chromium
+    #webcord
+    #ranger
+    #lazygit
+    #dunst
+    #spotify
     # vscode
     # cloudflared
   ];
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -154,6 +192,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
-
