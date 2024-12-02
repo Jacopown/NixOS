@@ -1,7 +1,11 @@
-
-{ lib, inputs, pkgs, config, ...}:
 {
-  programs ={
+  lib,
+  inputs,
+  pkgs,
+  config,
+  ...
+}: {
+  programs = {
     git = {
       enable = true;
       userName = "Jacopown";
