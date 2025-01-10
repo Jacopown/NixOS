@@ -13,6 +13,7 @@
     ./hardware-configuration.nix
     #../../modules/nixos/nvidia.nix
     ../../modules/nixos/zsh.nix
+    ../../modules/cachix.nix
   ];
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
@@ -24,6 +25,7 @@
     configurationLimit = 30;
   };
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.supportedFilesystems = ["ntfs"];
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -107,6 +109,8 @@
       firefox
       cachix
       vesktop
+      pavucontrol
+      spotify
     ];
   };
 
@@ -116,13 +120,6 @@
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
-      substituters = [
-        "https://cache.nixos.org"
-        "https://nix-community.cachix.org"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      ];
     };
   };
   nix.gc = {
@@ -135,6 +132,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     inputs.nixvim.packages.x86_64-linux.default
+    cudaPackages.cudatoolkit
     #wget
     #vesktop
     #keepassxc
