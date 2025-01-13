@@ -33,6 +33,13 @@
     videoDrivers = ["nvidia"];
     windowManager.awesome.enable = true;
     displayManager.gdm.enable = true;
+    xrandrHeads = [
+      {
+        output = "DP-0";
+        primary = true;
+      }
+      "HDMI-0"
+    ];
   };
 
   hardware.graphics.enable = true;
@@ -111,6 +118,7 @@
       vesktop
       pavucontrol
       spotify
+      nsxiv
     ];
   };
 
